@@ -5,6 +5,7 @@
 ======
 
 - [Задание 0](https://github.com/GPGPUCourse/GPGPUTasks2024/tree/task00): Вводное. (5 баллов)
+- [Задание 1](https://github.com/GPGPUCourse/GPGPUTasks2024/tree/task01): A+B. (5 баллов)
 
 
 Оценка

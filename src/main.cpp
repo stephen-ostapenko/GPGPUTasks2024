@@ -261,6 +261,9 @@ int main() {
         std::cout << "VRAM -> RAM bandwidth: " << std::fixed << n * sizeof(float) / (1024.0 * 1024.0 * 1024.0) / t.lapAvg() << " GB/s" << std::endl;
     }
 
+    clReleaseContext(context);
+    clReleaseCommandQueue(command_queue);
+
     // TODO 16 Сверьте результаты вычислений со сложением чисел на процессоре (и убедитесь, что если в кернеле сделать намеренную ошибку, то эта проверка поймает ошибку)
     for (unsigned int i = 0; i < n; ++i) {
         if (cs[i] != as[i] + bs[i]) {

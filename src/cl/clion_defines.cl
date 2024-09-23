@@ -61,6 +61,8 @@ size_t	get_num_groups		(uint dimindx);
 size_t	get_group_id		(uint dimindx);
 size_t	get_global_offset	(uint dimindx);
 
+void atomic_add(...);
+
 #ifndef STATIC_KEYWORD
 #define STATIC_KEYWORD static
 #endif

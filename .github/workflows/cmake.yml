@@ -28,10 +28,6 @@ jobs:
     - name: Build
       run: cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}}
 
-    - name: matrix_transpose
+    - name: merge
       working-directory: ${{github.workspace}}/build
-      run: ./matrix_transpose
-
-    - name: matrix_multiplication
-      working-directory: ${{github.workspace}}/build
-      run: ./matrix_multiplication
+      run: ./merge

@@ -120,7 +120,7 @@ int main(int argc, char **argv)
         run_kernel_benchmark(
             n, as, reference_sum,
             benchmarkingIters, device, global_atomic, "global_atomic",
-            16 * values_per_workitem
+            work_group_size
         );
 
         ocl::Kernel loop_sum(sum_kernel, sum_kernel_length, "sum_gpu_2");
@@ -134,7 +134,7 @@ int main(int argc, char **argv)
         run_kernel_benchmark(
             n, as, reference_sum,
             benchmarkingIters, device, coalesced_loop_sum, "coalesced_loop_sum",
-            work_group_size
+            16 * values_per_workitem
         );
 
         ocl::Kernel local_memory_sum(sum_kernel, sum_kernel_length, "sum_gpu_4");

@@ -1,6 +1,3 @@
-#include <chrono>
-#include <thread>
-
 #include <libutils/misc.h>
 #include <libutils/timer.h>
 #include <libutils/fast_random.h>
@@ -24,9 +21,9 @@ void raiseFail(const T &a, const T &b, std::string message, std::string filename
 void run_kernel_benchmark(
     unsigned int n, const std::vector<unsigned int> &as,
     unsigned int reference_sum, int benchmarkingIters,
-    gpu::Device device, ocl::Kernel kernel, const std::string kernel_name
+    gpu::Device device, ocl::Kernel kernel, const std::string kernel_name,
+    unsigned int work_group_size
 ) {
-    const unsigned int work_group_size = 64;
     const unsigned int global_work_size = (n + work_group_size - 1) / work_group_size * work_group_size;
 
     std::cout << std::endl;
@@ -34,14 +31,12 @@ void run_kernel_benchmark(
 
     kernel.compile(false);
     {
-        std::this_thread::sleep_for(std::chrono::milliseconds(5000));
+        gpu::gpu_mem_32u as_gpu;
+        as_gpu.resizeN(n);
+        as_gpu.writeN(as.data(), n);
 
         timer t;
         for (int iter = 0; iter < benchmarkingIters; ++iter) {
-            gpu::gpu_mem_32u as_gpu;
-            as_gpu.resizeN(n);
-            as_gpu.writeN(as.data(), n);
-
             unsigned int sum = 0;
             gpu::gpu_mem_32u sum_gpu;
             sum_gpu.resizeN(1);
@@ -78,8 +73,6 @@ int main(int argc, char **argv)
     }
 
     {
-        std::this_thread::sleep_for(std::chrono::milliseconds(5000));
-
         timer t;
         for (int iter = 0; iter < benchmarkingIters; ++iter) {
             unsigned int sum = 0;
@@ -96,8 +89,6 @@ int main(int argc, char **argv)
     }
 
     {
-        std::this_thread::sleep_for(std::chrono::milliseconds(5000));
-
         timer t;
         for (int iter = 0; iter < benchmarkingIters; ++iter) {
             unsigned int sum = 0;
@@ -122,19 +113,42 @@ int main(int argc, char **argv)
         context.init(device.device_id_opencl);
         context.activate();
 
+        const unsigned int values_per_workitem = 32;
+        const unsigned int work_group_size = 64;
+
         ocl::Kernel global_atomic(sum_kernel, sum_kernel_length, "sum_gpu_1");
-        run_kernel_benchmark(n, as, reference_sum, benchmarkingIters, device, global_atomic, "global_atomic");
+        run_kernel_benchmark(
+            n, as, reference_sum,
+            benchmarkingIters, device, global_atomic, "global_atomic",
+            16 * values_per_workitem
+        );
 
         ocl::Kernel loop_sum(sum_kernel, sum_kernel_length, "sum_gpu_2");
-        run_kernel_benchmark(n, as, reference_sum, benchmarkingIters, device, loop_sum, "loop_sum");
+        run_kernel_benchmark(
+            n, as, reference_sum,
+            benchmarkingIters, device, loop_sum, "loop_sum",
+            16 * values_per_workitem
+        );
 
         ocl::Kernel coalesced_loop_sum(sum_kernel, sum_kernel_length, "sum_gpu_3");
-        run_kernel_benchmark(n, as, reference_sum, benchmarkingIters, device, coalesced_loop_sum, "coalesced_loop_sum");
+        run_kernel_benchmark(
+            n, as, reference_sum,
+            benchmarkingIters, device, coalesced_loop_sum, "coalesced_loop_sum",
+            work_group_size
+        );
 
         ocl::Kernel local_memory_sum(sum_kernel, sum_kernel_length, "sum_gpu_4");
-        run_kernel_benchmark(n, as, reference_sum, benchmarkingIters, device, local_memory_sum, "local_memory_sum");
+        run_kernel_benchmark(
+            n, as, reference_sum,
+            benchmarkingIters, device, local_memory_sum, "local_memory_sum",
+            work_group_size
+        );
 
         ocl::Kernel tree_sum(sum_kernel, sum_kernel_length, "sum_gpu_5");
-        run_kernel_benchmark(n, as, reference_sum, benchmarkingIters, device, tree_sum, "tree_sum");
+        run_kernel_benchmark(
+            n, as, reference_sum,
+            benchmarkingIters, device, tree_sum, "tree_sum",
+            work_group_size
+        );
     }
 }

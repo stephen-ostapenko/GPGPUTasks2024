@@ -21,8 +21,7 @@ void gpu::printDeviceInfo(gpu::Device &device)
 		} else if (info.device_type == CL_DEVICE_TYPE_CPU) {
 			std::cout << "CPU.";
 		} else {
-			throw std::runtime_error(
-					"Only CPU and GPU supported! But type=" + to_string(info.device_type) + " encountered!");
+			std::cerr << "Only CPU and GPU supported! But type=" << to_string(info.device_type) << " encountered!" << std::endl;
 		}
 		std::cout << " " << info.device_name << ".";
 		if (info.device_type == CL_DEVICE_TYPE_CPU) {

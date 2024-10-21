@@ -11,6 +11,7 @@
 - [Задание 4](https://github.com/GPGPUCourse/GPGPUTasks2024/tree/task04): Транспонирование матрицы, умножение матриц. (10 баллов)
 - [Задание 5](https://github.com/GPGPUCourse/GPGPUTasks2024/tree/task05): Merge sort. (10 баллов)
 - [Задание 6](https://github.com/GPGPUCourse/GPGPUTasks2024/tree/task06): Bitonic sort. (7 баллов)
+- [Задание 7](https://github.com/GPGPUCourse/GPGPUTasks2024/tree/task07): Prefix sum. (10 баллов)
 
 
 Оценка

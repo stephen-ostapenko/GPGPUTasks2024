@@ -1,4 +1,0 @@
-__kernel void bitonic()
-{
-
-}

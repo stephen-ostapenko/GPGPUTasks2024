@@ -13,6 +13,7 @@
 - [Задание 6](https://github.com/GPGPUCourse/GPGPUTasks2024/tree/task06): Bitonic sort. (7 баллов)
 - [Задание 7](https://github.com/GPGPUCourse/GPGPUTasks2024/tree/task07): Prefix sum. (10 баллов)
 - [Задание 8](https://github.com/GPGPUCourse/GPGPUTasks2024/tree/task08): Radix sort. (10 баллов)
+- [Задание 9](https://github.com/GPGPUCourse/GPGPUTasks2024/tree/task09): SDF. (7 баллов)
 
 
 Оценка

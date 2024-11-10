@@ -16,7 +16,7 @@
 Задание 8
 =========
 
-![Lilmonster](/.figures/capture.gif?raw=true)
+![Lilmonster](/capture.gif?raw=true)
 
 Откройте страницу [Shadertoy](https://www.shadertoy.com/new).
 

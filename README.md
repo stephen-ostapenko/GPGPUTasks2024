@@ -3,17 +3,17 @@
 [Остальные задания](https://github.com/GPGPUCourse/GPGPUTasks2024/).
 
 
-# Задание 8. SDF
+# Задание 9. SDF
 
 [![Build Status](https://github.com/GPGPUCourse/GPGPUTasks2024/actions/workflows/cmake.yml/badge.svg?branch=task05&event=push)](https://github.com/GPGPUCourse/GPGPUTasks2024/actions/workflows/cmake.yml)
 
 0. Сделать fork проекта
-1. Выполнить задание 8
-2. Отправить **Pull-request** с названием ```Task08 <Имя> <Фамилия> <Аффиляция>``` 
+1. Выполнить задание 9
+2. Отправить **Pull-request** с названием ```Task09 <Имя> <Фамилия> <Аффиляция>``` 
 
 **Дедлайн**: 23:59 17 ноября.
 
-Задание 8
+Задание 9
 =========
 
 ![Lilmonster](/capture.gif?raw=true)

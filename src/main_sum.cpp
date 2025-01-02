@@ -22,10 +22,8 @@ void run_kernel_benchmark(
     unsigned int n, const std::vector<unsigned int> &as,
     unsigned int reference_sum, int benchmarkingIters,
     gpu::Device device, ocl::Kernel kernel, const std::string kernel_name,
-    unsigned int work_group_size
+    unsigned int work_group_size, unsigned int global_work_size
 ) {
-    const unsigned int global_work_size = (n + work_group_size - 1) / work_group_size * work_group_size;
-
     std::cout << std::endl;
     std::cout << "Global work size is " << global_work_size << std::endl;
 
@@ -115,40 +113,41 @@ int main(int argc, char **argv)
 
         const unsigned int values_per_workitem = 32;
         const unsigned int work_group_size = 64;
+        const unsigned int global_work_size = (n + work_group_size - 1) / work_group_size * work_group_size;
 
         ocl::Kernel global_atomic(sum_kernel, sum_kernel_length, "sum_gpu_1");
         run_kernel_benchmark(
             n, as, reference_sum,
             benchmarkingIters, device, global_atomic, "global_atomic",
-            work_group_size
+            work_group_size, global_work_size
         );
 
         ocl::Kernel loop_sum(sum_kernel, sum_kernel_length, "sum_gpu_2");
         run_kernel_benchmark(
             n, as, reference_sum,
             benchmarkingIters, device, loop_sum, "loop_sum",
-            16 * values_per_workitem
+            16 * values_per_workitem, global_work_size / values_per_workitem
         );
 
         ocl::Kernel coalesced_loop_sum(sum_kernel, sum_kernel_length, "sum_gpu_3");
         run_kernel_benchmark(
             n, as, reference_sum,
             benchmarkingIters, device, coalesced_loop_sum, "coalesced_loop_sum",
-            16 * values_per_workitem
+            16 * values_per_workitem, global_work_size / values_per_workitem
         );
 
         ocl::Kernel local_memory_sum(sum_kernel, sum_kernel_length, "sum_gpu_4");
         run_kernel_benchmark(
             n, as, reference_sum,
             benchmarkingIters, device, local_memory_sum, "local_memory_sum",
-            work_group_size
+            work_group_size, global_work_size
         );
 
         ocl::Kernel tree_sum(sum_kernel, sum_kernel_length, "sum_gpu_5");
         run_kernel_benchmark(
             n, as, reference_sum,
             benchmarkingIters, device, tree_sum, "tree_sum",
-            work_group_size
+            work_group_size, global_work_size
         );
     }
 }
